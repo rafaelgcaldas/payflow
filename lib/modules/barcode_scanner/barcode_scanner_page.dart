@@ -23,6 +23,23 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
           color: AppColors.background,
         ),
       ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              color: Colors.black
+            )),
+          Expanded(
+            flex: 2,
+            child: Container(
+              color: Colors.transparent
+            )),
+          Expanded(
+            child: Container(
+              color: Colors.black
+            )),
+        ],
+      )
     );
   }
 }
