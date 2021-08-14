@@ -6,7 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:payflow/modules/barcode_scanner/barcode_scanner_status.dart';
 
 class BarcodeScannerController {
-  final statusNotifier = ValueNotifier<BarcodeScannerStatus>(BarcodeScannerStatus());
+  final statusNotifier =
+      ValueNotifier<BarcodeScannerStatus>(BarcodeScannerStatus());
 
   BarcodeScannerStatus get status => statusNotifier.value;
   set status(BarcodeScannerStatus status) => statusNotifier.value = status;
@@ -23,6 +24,8 @@ class BarcodeScannerController {
 
       final cameraController =
           CameraController(camera, ResolutionPreset.max, enableAudio: false);
+
+      await cameraController.initialize();
 
       status = BarcodeScannerStatus.available(cameraController);
       scanWithCamera();
@@ -114,5 +117,13 @@ class BarcodeScannerController {
           print(e);
         }
       });
+  }
+
+  void dispose() {
+    statusNotifier.dispose();
+    barcodeScanner.close();
+    if (status.showCamera) {
+      status.cameraController!.dispose();
+    }
   }
 }
