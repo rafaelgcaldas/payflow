@@ -31,14 +31,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
 
   @override
   Widget build(BuildContext context) {
-    // return BottomSheetWidget(
-    //   title: "Não foi possível identificar um código de barras.",
-    //   subTitle: "Tente escanear novamente ou digite o código do seu boleto.",
-    //   primaryLabel: "Escanear novamente",
-    //   primaryOnPressed: () {},
-    //   secondaryLabel: "Digitar código",
-    //   secondaryOnPressed: () {},
-    // );
     // ignore: dead_code
     return SafeArea(
       top: true,
@@ -89,6 +81,26 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                 secondaryOnPressed: () {},
               ),
             ),
+          ),
+          ValueListenableBuilder<BarcodeScannerStatus>(
+            valueListenable: controller.statusNotifier,
+            builder: (_, status, __) {
+              if (status.hasError) {
+                return BottomSheetWidget(
+                  title: "Não foi possível identificar um código de barras.",
+                  subTitle:
+                      "Tente escanear novamente ou digite o código do seu boleto.",
+                  primaryLabel: "Escanear novamente",
+                  primaryOnPressed: () {
+                    controller.getAvailableCameras();
+                  },
+                  secondaryLabel: "Digitar código",
+                  secondaryOnPressed: () {},
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
         ],
       ),
